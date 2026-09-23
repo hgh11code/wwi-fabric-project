@@ -1,0 +1,11 @@
+expression 'DirectLake - wwi_gold' =
+		let
+		    Source = AzureStorage.DataLake("https://onelake.dfs.fabric.microsoft.com/c64ac1e1-7c4e-48d9-a80e-89d584a3b1c0/bf2d1df8-0367-4d71-bcdb-66140e5aad8b", [HierarchicalNavigation=true])
+		in
+		    Source
+	lineageTag: eb7dc0f4-c3f8-4297-b73b-c46fa2411f23
+
+	annotation PBI_IncludeFutureArtifacts = False
+
+	annotation PBI_RemovedChildren = [{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[common].[gold_table_results]"}},"objectType":"Table"},{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[common].[gold_input_versions]"}},"objectType":"Table"},{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[common].[gold_validation_results]"}},"objectType":"Table"},{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[common].[gold_failures]"}},"objectType":"Table"},{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[common].[gold_run_log]"}},"objectType":"Table"}]
+

@@ -1,0 +1,278 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "SetVariable",
+        "typeProperties": {
+          "variableName": "BronzeBatchID",
+          "value": {
+            "value": "@pipeline().RunId",
+            "type": "Expression"
+          }
+        },
+        "policy": {
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Set_Bronze_Batch_ID",
+        "dependsOn": [
+          {
+            "activity": "Set_Upper_Watermark",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "SetVariable",
+        "typeProperties": {
+          "variableName": "SilverRunID",
+          "value": {
+            "value": "@concat(pipeline().RunId,'-silver')",
+            "type": "Expression"
+          }
+        },
+        "policy": {
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Set_Silver_Run_ID",
+        "dependsOn": [
+          {
+            "activity": "Set_Bronze_Batch_ID",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "InvokePipeline",
+        "typeProperties": {
+          "parameters": {
+            "BatchID": {
+              "value": "@variables('BronzeBatchID')",
+              "type": "Expression"
+            },
+            "UpperWatermark": {
+              "value": "@variables('UpperWatermark')",
+              "type": "Expression"
+            },
+            "AttemptID": {
+              "value": "@pipeline().parameters.AttemptID",
+              "type": "Expression"
+            }
+          },
+          "waitOnCompletion": true,
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "pipelineId": "23b3783a-1a89-9647-457f-94686dcaa674",
+          "operationType": "InvokeFabricPipeline"
+        },
+        "externalReferences": {
+          "connection": "3b3d699c-b3d7-4466-882e-d4f4cb2454a6"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Run_Bronze_Incremental",
+        "dependsOn": [
+          {
+            "activity": "Set_Silver_Run_ID",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "InvokePipeline",
+        "typeProperties": {
+          "parameters": {
+            "BronzeBatchID": {
+              "value": "@variables('BronzeBatchID')",
+              "type": "Expression"
+            },
+            "BronzeAttemptID": {
+              "value": "@pipeline().parameters.AttemptID",
+              "type": "Expression"
+            },
+            "SilverRunID": {
+              "value": "@variables('SilverRunID')",
+              "type": "Expression"
+            }
+          },
+          "waitOnCompletion": true,
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "pipelineId": "89d5430a-deb0-b046-47cd-52c3af379e67",
+          "operationType": "InvokeFabricPipeline"
+        },
+        "externalReferences": {
+          "connection": "3b3d699c-b3d7-4466-882e-d4f4cb2454a6"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Run_Silver_Incremental",
+        "dependsOn": [
+          {
+            "activity": "Run_Bronze_Incremental",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "InvokePipeline",
+        "typeProperties": {
+          "parameters": {
+            "BronzeBatchID": {
+              "value": "@variables('BronzeBatchID')",
+              "type": "Expression"
+            },
+            "SilverRunID": {
+              "value": "@variables('SilverRunID')",
+              "type": "Expression"
+            }
+          },
+          "waitOnCompletion": true,
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "pipelineId": "4e4e4287-7368-abfd-48b5-444ad17bdf17",
+          "operationType": "InvokeFabricPipeline"
+        },
+        "externalReferences": {
+          "connection": "3b3d699c-b3d7-4466-882e-d4f4cb2454a6"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Run_Gold_Incremental",
+        "dependsOn": [
+          {
+            "activity": "Run_Silver_Incremental",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "SqlServerStoredProcedure",
+        "typeProperties": {
+          "database": "free-sql-db-7745991",
+          "storedProcedureName": "ops.RunNextSimulationDay",
+          "storedProcedureParameters": {
+            "AverageNumberOfCustomerOrdersPerDay": {
+              "value": "12",
+              "type": "Int32"
+            }
+          }
+        },
+        "externalReferences": {
+          "connection": "ba29182e-5d32-4875-aa4d-20bf4d84aae4"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Generate_Next_Simulation_Day",
+        "dependsOn": []
+      },
+      {
+        "type": "Lookup",
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT\n    CONVERT(char(10), MAX(BusinessDate), 23)\n        + 'T23:59:59.9999999' AS UpperWatermark\nFROM ops.simulation_days;",
+            "partitionOption": "None",
+            "queryTimeout": "02:00:00"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "typeProperties": {
+              "database": "free-sql-db-7745991"
+            },
+            "schema": [],
+            "externalReferences": {
+              "connection": "ba29182e-5d32-4875-aa4d-20bf4d84aae4"
+            },
+            "annotations": []
+          },
+          "firstRowOnly": true
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Lookup2",
+        "dependsOn": [
+          {
+            "activity": "Generate_Next_Simulation_Day",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "SetVariable",
+        "typeProperties": {
+          "variableName": "UpperWatermark",
+          "value": {
+            "value": "@activity('Lookup2').output.firstRow.UpperWatermark",
+            "type": "Expression"
+          }
+        },
+        "policy": {
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Set_Upper_Watermark",
+        "dependsOn": [
+          {
+            "activity": "Lookup2",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      }
+    ],
+    "parameters": {
+      "AttemptID": {
+        "type": "string",
+        "defaultValue": "01"
+      }
+    },
+    "variables": {
+      "BronzeBatchID": {
+        "type": "String"
+      },
+      "SilverRunID": {
+        "type": "String"
+      },
+      "UpperWatermark": {
+        "type": "String"
+      }
+    }
+  }
+}

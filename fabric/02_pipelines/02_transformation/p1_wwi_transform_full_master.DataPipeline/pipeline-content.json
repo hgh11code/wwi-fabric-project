@@ -1,0 +1,120 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "IfCondition",
+        "typeProperties": {
+          "expression": {
+            "value": "@empty(trim(coalesce(pipeline().parameters.p_batch_id, '')))",
+            "type": "Expression"
+          },
+          "ifTrueActivities": [
+            {
+              "type": "Fail",
+              "typeProperties": {
+                "message": "Provide an approved Bronze FULL BatchID in p_batch_id.",
+                "errorCode": "MISSING_BRONZE_BATCH_ID"
+              },
+              "name": "Fail_Missing_BatchID",
+              "dependsOn": []
+            }
+          ],
+          "ifFalseActivities": []
+        },
+        "name": "Check_Missing_BatchID",
+        "dependsOn": []
+      },
+      {
+        "type": "InvokePipeline",
+        "typeProperties": {
+          "parameters": {
+            "p_batch_id": "@trim(pipeline().parameters.p_batch_id)"
+          },
+          "waitOnCompletion": true,
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "pipelineId": "5f800f7d-e4e5-a846-4764-8bfdf0cd639a",
+          "operationType": "InvokeFabricPipeline"
+        },
+        "externalReferences": {
+          "connection": "3b3d699c-b3d7-4466-882e-d4f4cb2454a6"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Invoke_Silver_Full",
+        "dependsOn": [
+          {
+            "activity": "Check_Missing_BatchID",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "IfCondition",
+        "typeProperties": {
+          "expression": {
+            "value": "@and(equals(activity('Invoke_Silver_Full').output.properties.returnValue.status,'COMPLETED'),and(equals(activity('Invoke_Silver_Full').output.properties.returnValue.batch_id,trim(pipeline().parameters.p_batch_id)),not(empty(trim(coalesce(activity('Invoke_Silver_Full').output.properties.returnValue.silver_run_id,''))))))",
+            "type": "Expression"
+          },
+          "ifTrueActivities": [
+            {
+              "type": "InvokePipeline",
+              "typeProperties": {
+                "parameters": {
+                  "p_silver_run_id": "@activity('Invoke_Silver_Full').output.properties.returnValue.silver_run_id"
+                },
+                "waitOnCompletion": true,
+                "workspaceId": "00000000-0000-0000-0000-000000000000",
+                "pipelineId": "4e4567ea-9c72-9ac7-42c8-41ecf78c92a3",
+                "operationType": "InvokeFabricPipeline"
+              },
+              "externalReferences": {
+                "connection": "3b3d699c-b3d7-4466-882e-d4f4cb2454a6"
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "Invoke_Gold_Sales_Full",
+              "dependsOn": []
+            }
+          ],
+          "ifFalseActivities": [
+            {
+              "type": "Fail",
+              "typeProperties": {
+                "message": "Silver did not return a completed result for the requested Bronze batch with a valid Silver RunID.",
+                "errorCode": "INVALID_SILVER_RESULT"
+              },
+              "name": "Fail_Invalid_Silver_Result",
+              "dependsOn": []
+            }
+          ]
+        },
+        "name": "Check_Silver_Result",
+        "dependsOn": [
+          {
+            "activity": "Invoke_Silver_Full",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      }
+    ],
+    "parameters": {
+      "p_batch_id": {
+        "type": "string"
+      }
+    }
+  }
+}

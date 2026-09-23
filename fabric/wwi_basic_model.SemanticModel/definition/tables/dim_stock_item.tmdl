@@ -1,0 +1,192 @@
+table dim_stock_item
+	lineageTag: 21fe929f-b43c-43fa-a61f-4eb66aa85228
+	sourceLineageTag: [inventory].[dim_stock_item]
+
+	column stock_item_key
+		dataType: int64
+		formatString: 0
+		lineageTag: c299293c-b396-45b2-a8e4-8d591e25285c
+		sourceLineageTag: stock_item_key
+		summarizeBy: none
+		sourceColumn: stock_item_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column stock_item_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 1e3e0ef2-2263-44e6-ac3f-f8ff5576fe52
+		sourceLineageTag: stock_item_id
+		summarizeBy: none
+		sourceColumn: stock_item_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column stock_item_name
+		dataType: string
+		lineageTag: 9846183b-a9fb-49f0-ab61-b5297382ff62
+		sourceLineageTag: stock_item_name
+		summarizeBy: none
+		sourceColumn: stock_item_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column supplier_id
+		dataType: int64
+		formatString: 0
+		lineageTag: bb5bd32e-3e4e-492d-84c5-1f32c2c78687
+		sourceLineageTag: supplier_id
+		summarizeBy: none
+		sourceColumn: supplier_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column color_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 9fc43d29-6abf-4e07-98d9-40de616d6657
+		sourceLineageTag: color_id
+		summarizeBy: none
+		sourceColumn: color_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column color_name
+		dataType: string
+		lineageTag: 108e91dc-338d-4fe3-9d67-a0629ece5c3a
+		sourceLineageTag: color_name
+		summarizeBy: none
+		sourceColumn: color_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column brand
+		dataType: string
+		lineageTag: bdc1bfde-6157-482f-ade5-0a5d58071a9f
+		sourceLineageTag: brand
+		summarizeBy: none
+		sourceColumn: brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column size
+		dataType: string
+		lineageTag: b8dc9838-3d84-42bd-afc9-6278e5cb34bc
+		sourceLineageTag: size
+		summarizeBy: none
+		sourceColumn: size
+
+		annotation SummarizationSetBy = Automatic
+
+	column unit_package_id
+		dataType: int64
+		formatString: 0
+		lineageTag: dac56ea5-472e-41aa-8f0a-620c1a1f7169
+		sourceLineageTag: unit_package_id
+		summarizeBy: none
+		sourceColumn: unit_package_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column unit_package_name
+		dataType: string
+		lineageTag: 2ebc8f0a-4607-4e5d-86a1-a2d0e04f8f6a
+		sourceLineageTag: unit_package_name
+		summarizeBy: none
+		sourceColumn: unit_package_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column outer_package_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 78189ab4-7914-4c8b-93a4-52d7490588f4
+		sourceLineageTag: outer_package_id
+		summarizeBy: none
+		sourceColumn: outer_package_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column outer_package_name
+		dataType: string
+		lineageTag: 9ac1ac64-ec94-4deb-a19c-1eeb9e4c3fc6
+		sourceLineageTag: outer_package_name
+		summarizeBy: none
+		sourceColumn: outer_package_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column quantity_per_outer
+		dataType: int64
+		formatString: 0
+		lineageTag: 622e4cd0-0f31-493d-9f0b-ad1805c77732
+		sourceLineageTag: quantity_per_outer
+		summarizeBy: none
+		sourceColumn: quantity_per_outer
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_chiller_stock
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 0fccb55b-8f13-4503-91f1-566cfd6593f1
+		sourceLineageTag: is_chiller_stock
+		summarizeBy: none
+		sourceColumn: is_chiller_stock
+
+		annotation SummarizationSetBy = Automatic
+
+	column lead_time_days
+		dataType: int64
+		formatString: 0
+		lineageTag: fbbe4968-f246-41d9-8a16-e0ca94417002
+		sourceLineageTag: lead_time_days
+		summarizeBy: none
+		sourceColumn: lead_time_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column _gold_run_id
+		dataType: string
+		lineageTag: 721223c6-26a8-4b3d-9d0a-ffcb4f56874e
+		sourceLineageTag: _gold_run_id
+		summarizeBy: none
+		sourceColumn: _gold_run_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column _silver_run_id
+		dataType: string
+		lineageTag: f076f3b5-8afe-4d7e-97dc-26d19c8d3466
+		sourceLineageTag: _silver_run_id
+		summarizeBy: none
+		sourceColumn: _silver_run_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column _bronze_batch_id
+		dataType: string
+		lineageTag: 4529c2a0-5397-43b4-873b-4a623255438f
+		sourceLineageTag: _bronze_batch_id
+		summarizeBy: none
+		sourceColumn: _bronze_batch_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column _processed_at_utc
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 0db6af4c-f1f1-49c5-be58-05017a89035f
+		sourceLineageTag: _processed_at_utc
+		summarizeBy: none
+		sourceColumn: _processed_at_utc
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_stock_item = entity
+		mode: directLake
+		source
+			entityName: dim_stock_item
+			schemaName: inventory
+			expressionSource: 'DirectLake - wwi_gold'
+

@@ -1,0 +1,272 @@
+table fact_invoice_line
+	lineageTag: d649f1fb-0ae9-40fe-880c-a7a1ce564f5b
+	sourceLineageTag: [sales].[fact_invoice_line]
+
+	measure 'Total Profit' =
+			
+			SUM(fact_invoice_line[line_profit])
+		lineageTag: 636236ec-afa1-4108-84c7-bbe70cc236e4
+
+		changedProperty = Name
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Sales' =
+			
+			SUM(fact_invoice_line[sales_amount_incl_tax])
+		lineageTag: ee9a9d6a-4790-4d4b-a730-3a9862701dba
+
+		changedProperty = Name
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Sales Excluding Tax' =
+			
+			SUM(fact_invoice_line[sales_amount_excl_tax])
+		lineageTag: aca4254f-b350-4d44-afa3-6797f8dc3464
+
+		changedProperty = Name
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Quantity Sold' =
+			
+			SUM(fact_invoice_line[quantity])
+		formatString: 0
+		lineageTag: ed4edff5-e3de-42f4-a9f7-8cf9037a059a
+
+		changedProperty = Name
+
+	measure 'Invoice Count' =
+			
+			DISTINCTCOUNT(fact_invoice_line[invoice_id])
+		formatString: 0
+		lineageTag: ea0fb540-cf9c-47da-8ca3-dd3b0d57477d
+
+		changedProperty = Name
+
+	measure 'Profit Margin %' =
+			
+			DIVIDE(
+			    [Total Profit],
+			    [Sales Excluding Tax],
+			    0
+			)
+		lineageTag: a195abbf-cc32-475f-a93a-d7ea1219f570
+
+		changedProperty = Name
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column invoice_line_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 0003af2f-e6e3-4935-b2de-3e7401150d9f
+		sourceLineageTag: invoice_line_id
+		summarizeBy: sum
+		sourceColumn: invoice_line_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column invoice_id
+		dataType: int64
+		formatString: 0
+		lineageTag: d26dbaa9-d9b1-463c-b76d-6d4cc353022e
+		sourceLineageTag: invoice_id
+		summarizeBy: sum
+		sourceColumn: invoice_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_id
+		dataType: int64
+		formatString: 0
+		lineageTag: fc36c175-167b-4f05-a116-b8449441c462
+		sourceLineageTag: order_id
+		summarizeBy: sum
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: e383f926-4229-4b8e-9a3f-f6382da93c98
+		sourceLineageTag: date_key
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column invoice_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: f4cc532b-3908-486b-a5a1-3912219cb8cd
+		sourceLineageTag: invoice_date
+		summarizeBy: none
+		sourceColumn: invoice_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_key
+		dataType: int64
+		formatString: 0
+		lineageTag: c33a96f3-d554-4fd3-91f5-faf15b719159
+		sourceLineageTag: customer_key
+		summarizeBy: none
+		sourceColumn: customer_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column bill_to_customer_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 67a1d221-fbe4-4cce-b277-b1ada498ad03
+		sourceLineageTag: bill_to_customer_key
+		summarizeBy: sum
+		sourceColumn: bill_to_customer_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column stock_item_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 23dae5b7-d589-4254-b51b-e3496578a6a0
+		sourceLineageTag: stock_item_key
+		summarizeBy: none
+		sourceColumn: stock_item_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_credit_note
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 3e87b794-98fb-492e-8cff-9c735765f597
+		sourceLineageTag: is_credit_note
+		summarizeBy: none
+		sourceColumn: is_credit_note
+
+		annotation SummarizationSetBy = Automatic
+
+	column quantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 91864911-170b-4f3a-8556-dac63e4996d6
+		sourceLineageTag: quantity
+		summarizeBy: sum
+		sourceColumn: quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column unit_price
+		dataType: double
+		lineageTag: 52b8ce81-f5b9-4cee-8d28-80d57998e47d
+		sourceLineageTag: unit_price
+		summarizeBy: sum
+		sourceColumn: unit_price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column tax_rate
+		dataType: double
+		lineageTag: 5dd1f778-701b-4d4f-aac8-088cea20b5d7
+		sourceLineageTag: tax_rate
+		summarizeBy: sum
+		sourceColumn: tax_rate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column sales_amount_excl_tax
+		dataType: double
+		lineageTag: 6c45ba14-ac46-43cd-93cd-970ac73b7a5c
+		sourceLineageTag: sales_amount_excl_tax
+		summarizeBy: sum
+		sourceColumn: sales_amount_excl_tax
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column tax_amount
+		dataType: double
+		lineageTag: 80712463-c0b0-479f-844e-d84addbad1b2
+		sourceLineageTag: tax_amount
+		summarizeBy: sum
+		sourceColumn: tax_amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column sales_amount_incl_tax
+		dataType: double
+		lineageTag: 470a99a0-9782-48f4-aa2e-9b6766baeca0
+		sourceLineageTag: sales_amount_incl_tax
+		summarizeBy: sum
+		sourceColumn: sales_amount_incl_tax
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column line_profit
+		dataType: double
+		lineageTag: c12972d4-95da-409a-9de9-6fc3720cb097
+		sourceLineageTag: line_profit
+		summarizeBy: sum
+		sourceColumn: line_profit
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column _gold_run_id
+		dataType: string
+		lineageTag: 1b9f4599-1857-4782-9d83-3b1b79b3f8c1
+		sourceLineageTag: _gold_run_id
+		summarizeBy: none
+		sourceColumn: _gold_run_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column _silver_run_id
+		dataType: string
+		lineageTag: be1b3883-f461-44b5-a0ee-1356a523058d
+		sourceLineageTag: _silver_run_id
+		summarizeBy: none
+		sourceColumn: _silver_run_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column _bronze_batch_id
+		dataType: string
+		lineageTag: 1c343409-d290-415b-8c13-0db99a6bb539
+		sourceLineageTag: _bronze_batch_id
+		summarizeBy: none
+		sourceColumn: _bronze_batch_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column _processed_at_utc
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 31ef0e29-c847-4a35-8a22-eab4a28871cb
+		sourceLineageTag: _processed_at_utc
+		summarizeBy: none
+		sourceColumn: _processed_at_utc
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_invoice_line = entity
+		mode: directLake
+		source
+			entityName: fact_invoice_line
+			schemaName: sales
+			expressionSource: 'DirectLake - wwi_gold'
+

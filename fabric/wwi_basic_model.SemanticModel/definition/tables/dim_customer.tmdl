@@ -1,0 +1,227 @@
+table dim_customer
+	lineageTag: 0456d7fd-d30f-48f6-8cbf-bedcf396b204
+	sourceLineageTag: [sales].[dim_customer]
+
+	column customer_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 3c1ddc9d-0542-4672-a544-2c39971fd273
+		sourceLineageTag: customer_key
+		summarizeBy: none
+		sourceColumn: customer_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_id
+		dataType: int64
+		formatString: 0
+		lineageTag: c5eb7e17-5aa4-44f2-974e-a07b4f2eafd7
+		sourceLineageTag: customer_id
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_name
+		dataType: string
+		lineageTag: c20db4fd-90a8-402d-a873-c52ae3c1e7e6
+		sourceLineageTag: customer_name
+		summarizeBy: none
+		sourceColumn: customer_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_category_name
+		dataType: string
+		lineageTag: b7d64c1b-00c9-440a-9c6b-c28829518069
+		sourceLineageTag: customer_category_name
+		summarizeBy: none
+		sourceColumn: customer_category_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivery_city_id
+		dataType: int64
+		formatString: 0
+		lineageTag: a6df43b8-d546-44c5-87ab-98053bd7168c
+		sourceLineageTag: delivery_city_id
+		summarizeBy: none
+		sourceColumn: delivery_city_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivery_city_name
+		dataType: string
+		lineageTag: 8795ad6d-4cb3-4890-99ed-25a0fb3f2dac
+		sourceLineageTag: delivery_city_name
+		summarizeBy: none
+		sourceColumn: delivery_city_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column state_province_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 4ed4e242-2f62-4232-8648-b64cd66fe314
+		sourceLineageTag: state_province_id
+		summarizeBy: none
+		sourceColumn: state_province_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column state_province_code
+		dataType: string
+		lineageTag: e5207f46-ba93-4236-a8fe-56429e06e775
+		sourceLineageTag: state_province_code
+		summarizeBy: none
+		sourceColumn: state_province_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column state_province_name
+		dataType: string
+		lineageTag: 5a6c2cd1-6589-43e6-bc66-a0c93670882b
+		sourceLineageTag: state_province_name
+		summarizeBy: none
+		sourceColumn: state_province_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column sales_territory
+		dataType: string
+		lineageTag: c41a5f9e-752f-49fa-a443-fa3452f9cdbe
+		sourceLineageTag: sales_territory
+		summarizeBy: none
+		sourceColumn: sales_territory
+
+		annotation SummarizationSetBy = Automatic
+
+	column country_id
+		dataType: int64
+		formatString: 0
+		lineageTag: d663cb4e-cba3-4a88-b15f-587756281bc0
+		sourceLineageTag: country_id
+		summarizeBy: none
+		sourceColumn: country_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column country_name
+		dataType: string
+		lineageTag: 83d49528-9954-4253-9e2f-e07aa2ceb47d
+		sourceLineageTag: country_name
+		summarizeBy: none
+		sourceColumn: country_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column iso_alpha3_code
+		dataType: string
+		lineageTag: 09381480-ec5f-4860-b8ae-112dd0407a69
+		sourceLineageTag: iso_alpha3_code
+		summarizeBy: none
+		sourceColumn: iso_alpha3_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column continent
+		dataType: string
+		lineageTag: 199c2627-b1e8-4f58-accc-60baf785a7db
+		sourceLineageTag: continent
+		summarizeBy: none
+		sourceColumn: continent
+
+		annotation SummarizationSetBy = Automatic
+
+	column region
+		dataType: string
+		lineageTag: 88c86003-23f2-460f-b6eb-48b56a9a5848
+		sourceLineageTag: region
+		summarizeBy: none
+		sourceColumn: region
+
+		annotation SummarizationSetBy = Automatic
+
+	column subregion
+		dataType: string
+		lineageTag: 20dbeff7-289f-4e6f-9480-cf3af903a618
+		sourceLineageTag: subregion
+		summarizeBy: none
+		sourceColumn: subregion
+
+		annotation SummarizationSetBy = Automatic
+
+	column account_opened_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: f3e41e82-8dc6-40e7-84c7-6504ee417b06
+		sourceLineageTag: account_opened_date
+		summarizeBy: none
+		sourceColumn: account_opened_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column payment_days
+		dataType: int64
+		formatString: 0
+		lineageTag: 84f0fa2a-22cf-48d7-86e2-7d0755ee3493
+		sourceLineageTag: payment_days
+		summarizeBy: none
+		sourceColumn: payment_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_on_credit_hold
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 58ec37d4-3cdf-460c-9470-f11269187d1b
+		sourceLineageTag: is_on_credit_hold
+		summarizeBy: none
+		sourceColumn: is_on_credit_hold
+
+		annotation SummarizationSetBy = Automatic
+
+	column _gold_run_id
+		dataType: string
+		lineageTag: 15be5945-e12b-444f-ad44-6febea4cd749
+		sourceLineageTag: _gold_run_id
+		summarizeBy: none
+		sourceColumn: _gold_run_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column _silver_run_id
+		dataType: string
+		lineageTag: a49bc59b-3cc7-4006-a015-e67f29c73458
+		sourceLineageTag: _silver_run_id
+		summarizeBy: none
+		sourceColumn: _silver_run_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column _bronze_batch_id
+		dataType: string
+		lineageTag: c1ec9208-bac2-405c-88dd-af0178fac655
+		sourceLineageTag: _bronze_batch_id
+		summarizeBy: none
+		sourceColumn: _bronze_batch_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column _processed_at_utc
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: d360930b-2bc7-40f7-9e8b-fde722a8aea6
+		sourceLineageTag: _processed_at_utc
+		summarizeBy: none
+		sourceColumn: _processed_at_utc
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_customer = entity
+		mode: directLake
+		source
+			entityName: dim_customer
+			schemaName: sales
+			expressionSource: 'DirectLake - wwi_gold'
+

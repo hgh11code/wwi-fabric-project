@@ -1,0 +1,149 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "88b5403f-1e48-985e-4757-0dd9f9b04045",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "bronze_batch_id": {
+              "value": {
+                "value": "@pipeline().parameters.BronzeBatchID",
+                "type": "Expression"
+              },
+              "type": "string"
+            },
+            "attempt_id": {
+              "value": {
+                "value": "@pipeline().parameters.BronzeAttemptID",
+                "type": "Expression"
+              },
+              "type": "string"
+            },
+            "silver_run_id": {
+              "value": {
+                "value": "@if(empty(pipeline().parameters.SilverRunID),pipeline().RunId,pipeline().parameters.SilverRunID)",
+                "type": "Expression"
+              },
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 2,
+          "retryIntervalInSeconds": 120,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Process_Silver",
+        "dependsOn": []
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "a2ebf7f2-afa3-aa5e-4595-b2c2074e62cb",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "bronze_batch_id": {
+              "value": {
+                "value": "@pipeline().parameters.BronzeBatchID",
+                "type": "Expression"
+              },
+              "type": "string"
+            },
+            "attempt_id": {
+              "value": {
+                "value": "@pipeline().parameters.BronzeAttemptID",
+                "type": "Expression"
+              },
+              "type": "string"
+            },
+            "silver_run_id": {
+              "value": {
+                "value": "@if(empty(pipeline().parameters.SilverRunID),pipeline().RunId,pipeline().parameters.SilverRunID)",
+                "type": "Expression"
+              },
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 2,
+          "retryIntervalInSeconds": 120,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Validate_silver",
+        "dependsOn": [
+          {
+            "activity": "Process_Silver",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "6e4a42f8-ef66-ad25-41f4-7094d125d615",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "bronze_batch_id": {
+              "value": {
+                "value": "@pipeline().parameters.BronzeBatchID",
+                "type": "Expression"
+              },
+              "type": "string"
+            },
+            "attempt_id": {
+              "value": {
+                "value": "@pipeline().parameters.BronzeAttemptID",
+                "type": "Expression"
+              },
+              "type": "string"
+            },
+            "silver_run_id": {
+              "value": {
+                "value": "@if(empty(pipeline().parameters.SilverRunID),pipeline().RunId,pipeline().parameters.SilverRunID)",
+                "type": "Expression"
+              },
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 2,
+          "retryIntervalInSeconds": 120,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Finalize_Silver",
+        "dependsOn": [
+          {
+            "activity": "Validate_silver",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      }
+    ],
+    "parameters": {
+      "BronzeBatchID": {
+        "type": "string"
+      },
+      "BronzeAttemptID": {
+        "type": "string",
+        "defaultValue": "01"
+      },
+      "SilverRunID": {
+        "type": "string"
+      }
+    }
+  }
+}

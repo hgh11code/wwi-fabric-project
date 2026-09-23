@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "p4_wwi_end_to_end_incremental"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "2ff0ebe6-606a-8e85-40ea-e943568c6170"
+  }
+}

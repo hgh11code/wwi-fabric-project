@@ -1,0 +1,110 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": {
+              "value": "@pipeline().parameters.p_source_query",
+              "type": "Expression"
+            },
+            "partitionOption": "None",
+            "queryTimeout": "02:00:00",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "Warehouse",
+                "table": "PackageTypes",
+                "database": "free-sql-db-7745991"
+              },
+              "schema": [],
+              "externalReferences": {
+                "connection": "ba29182e-5d32-4875-aa4d-20bf4d84aae4"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "ParquetSink",
+            "formatSettings": {
+              "type": "ParquetWriteSettings",
+              "enableVertiParquet": true
+            },
+            "storeSettings": {
+              "type": "LakehouseWriteSettings"
+            },
+            "datasetSettings": {
+              "type": "Parquet",
+              "typeProperties": {
+                "location": {
+                  "type": "LakehouseLocation",
+                  "folderPath": {
+                    "value": "@concat(\n    'raw/wwi/',\n    pipeline().parameters.p_source_schema,\n    '/',\n    pipeline().parameters.p_source_table,\n    '/load_type=full',\n    '/ingest_year=',\n    formatDateTime(pipeline().TriggerTime, 'yyyy'),\n    '/ingest_month=',\n    formatDateTime(pipeline().TriggerTime, 'MM'),\n    '/ingest_day=',\n    formatDateTime(pipeline().TriggerTime, 'dd'),\n    '/batch_id=',\n    pipeline().parameters.p_batch_id,\n    '/attempt_id=',\n    pipeline().parameters.p_attempt_id,\n    '/'\n)",
+                    "type": "Expression"
+                  }
+                },
+                "compressionCodec": "snappy"
+              },
+              "schema": [],
+              "linkedService": {
+                "name": "wwi_bronze",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "7a004073-9427-8540-4a56-f6c8db08a2e9",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Files"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "typeConversion": true,
+            "typeConversionSettings": {
+              "allowDataTruncation": true,
+              "treatBooleanAsNumber": false
+            }
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Copy_AzureSQL_To_Bronze",
+        "dependsOn": []
+      }
+    ],
+    "parameters": {
+      "p_source_schema": {
+        "type": "string",
+        "defaultValue": "Warehouse"
+      },
+      "p_source_table": {
+        "type": "string",
+        "defaultValue": "PackageTypes"
+      },
+      "p_attempt_id": {
+        "type": "string",
+        "defaultValue": "01"
+      },
+      "p_source_query": {
+        "type": "string",
+        "defaultValue": "SELECT [PackageTypeID], [PackageTypeName], [LastEditedBy], CONVERT(varchar(33), [ValidFrom], 126) AS [ValidFrom], CONVERT(varchar(33), [ValidTo], 126) AS [ValidTo] FROM [Warehouse].[PackageTypes];"
+      },
+      "p_batch_id": {
+        "type": "string",
+        "defaultValue": "manual_test_001"
+      }
+    }
+  }
+}

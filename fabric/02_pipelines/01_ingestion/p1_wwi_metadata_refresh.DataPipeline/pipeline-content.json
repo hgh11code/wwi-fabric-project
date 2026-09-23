@@ -1,0 +1,71 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "Lookup",
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT\n    s.name AS SourceSchema,\n    t.name AS SourceTable,\n    t.temporal_type_desc AS TableType,\n\n    pk.PrimaryKeyColumns,\n\n    CASE\n        WHEN t.temporal_type_desc =\n             'SYSTEM_VERSIONED_TEMPORAL_TABLE'\n            THEN CAST(1 AS bit)\n\n        WHEN t.temporal_type_desc = 'HISTORY_TABLE'\n            THEN CAST(1 AS bit)\n\n        WHEN EXISTS\n        (\n            SELECT 1\n            FROM sys.columns AS wc\n            WHERE wc.object_id = t.object_id\n              AND wc.name = 'LastEditedWhen'\n        )\n            THEN CAST(1 AS bit)\n\n        WHEN EXISTS\n        (\n            SELECT 1\n            FROM sys.columns AS wc\n            WHERE wc.object_id = t.object_id\n              AND wc.name = 'RecordedWhen'\n        )\n            THEN CAST(1 AS bit)\n\n        ELSE CAST(0 AS bit)\n    END AS IncrementalEnabled,\n\n    CASE\n        WHEN t.temporal_type_desc =\n             'SYSTEM_VERSIONED_TEMPORAL_TABLE'\n            THEN 'TEMPORAL_CURRENT_UPSERT'\n\n        WHEN t.temporal_type_desc = 'HISTORY_TABLE'\n            THEN 'TEMPORAL_HISTORY_APPEND'\n\n        WHEN EXISTS\n        (\n            SELECT 1\n            FROM sys.columns AS wc\n            WHERE wc.object_id = t.object_id\n              AND wc.name = 'LastEditedWhen'\n        )\n            THEN 'WATERMARK_UPSERT'\n\n        WHEN EXISTS\n        (\n            SELECT 1\n            FROM sys.columns AS wc\n            WHERE wc.object_id = t.object_id\n              AND wc.name = 'RecordedWhen'\n        )\n            THEN 'WATERMARK_APPEND'\n\n        ELSE 'FULL_RELOAD'\n    END AS IncrementalMethod,\n\n    CASE\n        WHEN t.temporal_type_desc =\n             'SYSTEM_VERSIONED_TEMPORAL_TABLE'\n            THEN 'ValidFrom'\n\n        WHEN t.temporal_type_desc = 'HISTORY_TABLE'\n            THEN 'ValidTo'\n\n        WHEN EXISTS\n        (\n            SELECT 1\n            FROM sys.columns AS wc\n            WHERE wc.object_id = t.object_id\n              AND wc.name = 'LastEditedWhen'\n        )\n            THEN 'LastEditedWhen'\n\n        WHEN EXISTS\n        (\n            SELECT 1\n            FROM sys.columns AS wc\n            WHERE wc.object_id = t.object_id\n              AND wc.name = 'RecordedWhen'\n        )\n            THEN 'RecordedWhen'\n\n        ELSE NULL\n    END AS WatermarkColumn,\n\n    CASE\n        WHEN t.temporal_type_desc = 'HISTORY_TABLE'\n            THEN 'READY_HISTORY_PARENT_KEY_REQUIRED'\n\n        WHEN pk.PrimaryKeyColumns IS NULL\n            THEN 'REVIEW_PRIMARY_KEY'\n\n        WHEN\n        (\n            t.temporal_type_desc =\n                'SYSTEM_VERSIONED_TEMPORAL_TABLE'\n            OR EXISTS\n            (\n                SELECT 1\n                FROM sys.columns AS wc\n                WHERE wc.object_id = t.object_id\n                  AND wc.name IN\n                  (\n                      'LastEditedWhen',\n                      'RecordedWhen'\n                  )\n            )\n        )\n            THEN 'READY_FOR_INCREMENTAL'\n\n        ELSE 'FULL_RELOAD_ONLY'\n    END AS ConfigStatus\n\nFROM sys.tables AS t\n\nJOIN sys.schemas AS s\n    ON s.schema_id = t.schema_id\n\nOUTER APPLY\n(\n    SELECT\n        STRING_AGG(\n            CAST(pk_column.name AS nvarchar(max)),\n            ','\n        ) WITHIN GROUP\n        (\n            ORDER BY index_column.key_ordinal\n        ) AS PrimaryKeyColumns\n\n    FROM sys.indexes AS primary_index\n\n    JOIN sys.index_columns AS index_column\n        ON index_column.object_id =\n           primary_index.object_id\n       AND index_column.index_id =\n           primary_index.index_id\n\n    JOIN sys.columns AS pk_column\n        ON pk_column.object_id =\n           index_column.object_id\n       AND pk_column.column_id =\n           index_column.column_id\n\n    WHERE primary_index.object_id = t.object_id\n      AND primary_index.is_primary_key = 1\n) AS pk\n\nWHERE t.is_ms_shipped = 0\n  AND s.name IN\n  (\n      'Application',\n      'Purchasing',\n      'Sales',\n      'Warehouse'\n  )\n\nORDER BY\n    s.name,\n    t.name;",
+            "partitionOption": "None",
+            "queryTimeout": "02:00:00"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "typeProperties": {
+              "database": "free-sql-db-7745991"
+            },
+            "schema": [],
+            "externalReferences": {
+              "connection": "ba29182e-5d32-4875-aa4d-20bf4d84aae4"
+            },
+            "annotations": []
+          },
+          "firstRowOnly": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Lookup_WWI_ConfigMetadata",
+        "dependsOn": []
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "e71a7b48-cc64-9ae6-4c0f-88de32218f7f",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "p_metadata_json": {
+              "value": "@string(activity('Lookup_WWI_ConfigMetadata').output.value)",
+              "type": "string"
+            },
+            "p_source_system": {
+              "value": "AZURE_SQL_WWI",
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Merge_WWI_ConfigMetadata",
+        "dependsOn": [
+          {
+            "activity": "Lookup_WWI_ConfigMetadata",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

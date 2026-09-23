@@ -1,0 +1,235 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": {
+              "value": "@pipeline().parameters.SourceQuery",
+              "type": "Expression"
+            },
+            "partitionOption": "None",
+            "queryTimeout": "02:00:00",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "database": "free-sql-db-7745991"
+              },
+              "schema": [],
+              "externalReferences": {
+                "connection": "ba29182e-5d32-4875-aa4d-20bf4d84aae4"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "ParquetSink",
+            "formatSettings": {
+              "type": "ParquetWriteSettings",
+              "enableVertiParquet": true
+            },
+            "storeSettings": {
+              "type": "AzureBlobStorageWriteSettings"
+            },
+            "datasetSettings": {
+              "type": "Parquet",
+              "typeProperties": {
+                "location": {
+                  "type": "LakehouseLocation",
+                  "folderPath": {
+                    "value": "@concat(\n    'raw/wwi/',\n    pipeline().parameters.SourceSchema, '/',\n    pipeline().parameters.SourceTable,\n    '/load_type=', pipeline().parameters.LoadType,\n    '/ingest_year=', formatDateTime(pipeline().parameters.IngestionDateUTC, 'yyyy'),\n    '/ingest_month=', formatDateTime(pipeline().parameters.IngestionDateUTC, 'MM'),\n    '/ingest_day=', formatDateTime(pipeline().parameters.IngestionDateUTC, 'dd'),\n    '/batch_id=', pipeline().parameters.BatchID,\n    '/attempt_id=', pipeline().parameters.AttemptID\n)",
+                    "type": "Expression"
+                  },
+                  "fileName": "data.parquet"
+                },
+                "compressionCodec": "snappy"
+              },
+              "schema": [],
+              "linkedService": {
+                "name": "wwi_bronze",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "7a004073-9427-8540-4a56-f6c8db08a2e9",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Files"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "typeConversion": true,
+            "typeConversionSettings": {
+              "allowDataTruncation": true,
+              "treatBooleanAsNumber": false
+            }
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Copy_Table_Incremental",
+        "dependsOn": [
+          {
+            "activity": "Lookup_SourceCount",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Lookup",
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": {
+              "value": "@pipeline().parameters.SourceCountQuery",
+              "type": "Expression"
+            },
+            "partitionOption": "None",
+            "queryTimeout": "02:00:00"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "typeProperties": {
+              "database": "free-sql-db-7745991"
+            },
+            "schema": [],
+            "externalReferences": {
+              "connection": "ba29182e-5d32-4875-aa4d-20bf4d84aae4"
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Lookup_SourceCount",
+        "dependsOn": []
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "cc79b619-d4dc-bc42-4f40-36f4084d787d",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "table_spec_json": {
+              "value": {
+                "value": "@pipeline().parameters.TableSpecJson",
+                "type": "Expression"
+              },
+              "type": "string"
+            },
+            "batch_id": {
+              "value": {
+                "value": "@pipeline().parameters.BatchID",
+                "type": "Expression"
+              },
+              "type": "string"
+            },
+            "attempt_id": {
+              "value": {
+                "value": "@pipeline().parameters.AttemptID",
+                "type": "Expression"
+              },
+              "type": "string"
+            },
+            "ingestion_date_utc": {
+              "value": {
+                "value": "@pipeline().parameters.IngestionDateUTC",
+                "type": "Expression"
+              },
+              "type": "string"
+            },
+            "source_row_count": {
+              "value": {
+                "value": "@string(activity('Lookup_SourceCount').output.firstRow.SourceRowCount)",
+                "type": "Expression"
+              },
+              "type": "string"
+            },
+            "copy_rows_read": {
+              "value": {
+                "value": "@string(activity('Copy_Table_Incremental').output.rowsRead)",
+                "type": "Expression"
+              },
+              "type": "string"
+            },
+            "copy_rows_copied": {
+              "value": {
+                "value": "@string(activity('Copy_Table_Incremental').output.rowsCopied)",
+                "type": "Expression"
+              },
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 2,
+          "retryIntervalInSeconds": 120,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Validate_Table",
+        "dependsOn": [
+          {
+            "activity": "Copy_Table_Incremental",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      }
+    ],
+    "parameters": {
+      "SourceSchema": {
+        "type": "string",
+        "defaultValue": "Sales"
+      },
+      "SourceTable": {
+        "type": "string",
+        "defaultValue": "Orders"
+      },
+      "SourceQuery": {
+        "type": "string"
+      },
+      "BatchID": {
+        "type": "string"
+      },
+      "IngestionDateUTC": {
+        "type": "string"
+      },
+      "AttemptID": {
+        "type": "string",
+        "defaultValue": "01"
+      },
+      "SourceCountQuery": {
+        "type": "string"
+      },
+      "LoadType": {
+        "type": "string",
+        "defaultValue": "incremental"
+      },
+      "TableSpecJson": {
+        "type": "string"
+      }
+    }
+  }
+}

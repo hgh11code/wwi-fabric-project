@@ -1,0 +1,83 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "0e868886-8189-baa4-4f16-e90ba0625c74",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "p_batch_id": {
+              "value": {
+                "value": "@pipeline().parameters.p_batch_id",
+                "type": "Expression"
+              },
+              "type": "string"
+            },
+            "p_pipeline_exit": {
+              "value": true,
+              "type": "bool"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Run_Bronze_To_Silver_Full",
+        "dependsOn": []
+      },
+      {
+        "type": "SetVariable",
+        "typeProperties": {
+          "variableName": "pipelineReturnValue",
+          "value": [
+            {
+              "key": "silver_run_id",
+              "value": {
+                "type": "Expression",
+                "content": "@json(activity('Run_Bronze_To_Silver_Full').output.result.exitValue).silver_run_id"
+              }
+            },
+            {
+              "key": "batch_id",
+              "value": {
+                "type": "Expression",
+                "content": "@json(activity('Run_Bronze_To_Silver_Full').output.result.exitValue).batch_id"
+              }
+            },
+            {
+              "key": "status",
+              "value": {
+                "type": "Expression",
+                "content": "@json(activity('Run_Bronze_To_Silver_Full').output.result.exitValue).status"
+              }
+            }
+          ],
+          "setSystemVariable": true
+        },
+        "policy": {
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Return_Silver_Result",
+        "dependsOn": [
+          {
+            "activity": "Run_Bronze_To_Silver_Full",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      }
+    ],
+    "parameters": {
+      "p_batch_id": {
+        "type": "string"
+      }
+    }
+  }
+}

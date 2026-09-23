@@ -1,0 +1,44 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "441a0fbb-faf6-bc0e-410b-1f89186f9069",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "p_silver_run_id": {
+              "value": "@pipeline().parameters.SilverRunID",
+              "type": "string"
+            },
+            "p_bronze_batch_id": {
+              "value": "@pipeline().parameters.BronzeBatchID",
+              "type": "string"
+            },
+            "p_pipeline_exit": {
+              "value": true,
+              "type": "bool"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Process_Gold_Incremental",
+        "dependsOn": []
+      }
+    ],
+    "parameters": {
+      "SilverRunID": {
+        "type": "string"
+      },
+      "BronzeBatchID": {
+        "type": "string"
+      }
+    }
+  }
+}

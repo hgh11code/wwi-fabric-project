@@ -1,0 +1,224 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "SetVariable",
+        "typeProperties": {
+          "variableName": "BatchID",
+          "value": {
+            "value": "@pipeline().RunId",
+            "type": "Expression"
+          }
+        },
+        "policy": {
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Set_BatchID",
+        "dependsOn": []
+      },
+      {
+        "type": "SetVariable",
+        "typeProperties": {
+          "variableName": "IngestionDateUTC",
+          "value": {
+            "value": "@utcNow()",
+            "type": "Expression"
+          }
+        },
+        "policy": {
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Set_IngestionDateUTC",
+        "dependsOn": [
+          {
+            "activity": "Set_BatchID",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ForEach",
+        "typeProperties": {
+          "isSequential": true,
+          "items": {
+            "value": "@json(activity('Prepare_Incremental').output.result.exitValue).TableList",
+            "type": "Expression"
+          },
+          "activities": [
+            {
+              "type": "InvokePipeline",
+              "typeProperties": {
+                "parameters": {
+                  "SourceSchema": {
+                    "value": "@item().SourceSchema",
+                    "type": "Expression"
+                  },
+                  "SourceTable": {
+                    "value": "@item().SourceTable",
+                    "type": "Expression"
+                  },
+                  "SourceQuery": {
+                    "value": "@item().SourceQuery",
+                    "type": "Expression"
+                  },
+                  "BatchID": {
+                    "value": "@variables('BatchID')",
+                    "type": "Expression"
+                  },
+                  "IngestionDateUTC": {
+                    "value": "@variables('IngestionDateUTC')",
+                    "type": "Expression"
+                  },
+                  "AttemptID": {
+                    "value": "@pipeline().parameters.AttemptID",
+                    "type": "Expression"
+                  },
+                  "SourceCountQuery": {
+                    "value": "@item().SourceCountQuery",
+                    "type": "Expression"
+                  },
+                  "LoadType": {
+                    "value": "@item().LoadType",
+                    "type": "Expression"
+                  },
+                  "TableSpecJson": {
+                    "value": "@string(item())",
+                    "type": "Expression"
+                  }
+                },
+                "waitOnCompletion": true,
+                "workspaceId": "00000000-0000-0000-0000-000000000000",
+                "pipelineId": "80580d5c-70d4-bf9f-41d0-86c8ebba13b3",
+                "operationType": "InvokeFabricPipeline"
+              },
+              "externalReferences": {
+                "connection": "3b3d699c-b3d7-4466-882e-d4f4cb2454a6"
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "Invoke_Incremental_Table",
+              "dependsOn": []
+            }
+          ]
+        },
+        "name": "ForEach_Table",
+        "dependsOn": [
+          {
+            "activity": "Prepare_Incremental",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "f393bcb5-e589-8f50-4a6c-722761f684d7",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "batch_id": {
+              "value": {
+                "value": "@variables('BatchID')",
+                "type": "Expression"
+              },
+              "type": "string"
+            },
+            "attempt_id": {
+              "value": {
+                "value": "@pipeline().parameters.AttemptID",
+                "type": "Expression"
+              },
+              "type": "string"
+            },
+            "table_list_json": {
+              "value": {
+                "value": "@string(json(activity('Prepare_Incremental').output.result.exitValue).TableList)",
+                "type": "Expression"
+              },
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Finalize_Bronze_Batch",
+        "dependsOn": [
+          {
+            "activity": "ForEach_Table",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "8bce0cd9-b6f0-966c-41e3-1beb6cf715ab",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "upper_watermark": {
+              "value": {
+                "value": "@pipeline().parameters.UpperWatermark",
+                "type": "Expression"
+              },
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Prepare_Incremental",
+        "dependsOn": [
+          {
+            "activity": "Set_IngestionDateUTC",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      }
+    ],
+    "parameters": {
+      "BatchID": {
+        "type": "string"
+      },
+      "UpperWatermark": {
+        "type": "string",
+        "defaultValue": "2016-06-03T23:59:59.9999999Z"
+      },
+      "AttemptID": {
+        "type": "string",
+        "defaultValue": "01"
+      }
+    },
+    "variables": {
+      "BatchID": {
+        "type": "String"
+      },
+      "IngestionDateUTC": {
+        "type": "String"
+      }
+    }
+  }
+}

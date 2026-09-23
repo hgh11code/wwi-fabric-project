@@ -1,0 +1,12 @@
+relationship 34e1eb68-ab43-1c6f-b21c-45bdff6dd9a8
+	fromColumn: fact_invoice_line.date_key
+	toColumn: dim_date.date_key
+
+relationship f5ee7a69-148d-517e-390f-7796d9996f6e
+	fromColumn: fact_invoice_line.customer_key
+	toColumn: dim_customer.customer_key
+
+relationship 2e090018-481b-7596-9c84-7c31bc541dbb
+	fromColumn: fact_invoice_line.stock_item_key
+	toColumn: dim_stock_item.stock_item_key
+

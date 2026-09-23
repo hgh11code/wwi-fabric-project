@@ -1,0 +1,88 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "Lookup",
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT\n    s.name AS SourceSchema,\n    t.name AS SourceTable,\n    t.temporal_type_desc AS TableType,\n\n    CAST(N'SELECT ' AS nvarchar(max))\n    + STRING_AGG(\n        CAST(\n            CASE\n                -- Preserve spatial values as SQL Server native binary.\n                WHEN ty.name IN (N'geography', N'geometry')\n                THEN\n                    N'CASE WHEN ' + QUOTENAME(c.name)\n                    + N' IS NULL THEN NULL ELSE '\n                    + QUOTENAME(c.name)\n                    + N'.Serialize() END AS '\n                    + QUOTENAME(c.name)\n\n                -- Preserve full datetime2 precision in raw files.\n                WHEN ty.name = N'datetime2'\n                THEN\n                    N'CONVERT(varchar(33), '\n                    + QUOTENAME(c.name)\n                    + N', 126) AS '\n                    + QUOTENAME(c.name)\n\n                ELSE QUOTENAME(c.name)\n            END\n            AS nvarchar(max)\n        ),\n        N', '\n    ) WITHIN GROUP (ORDER BY c.column_id)\n\n    + N' FROM '\n    + QUOTENAME(s.name) + N'.' + QUOTENAME(t.name)\n    + N';' AS SourceQuery\n\nFROM sys.tables AS t\nJOIN sys.schemas AS s\n    ON s.schema_id = t.schema_id\nJOIN sys.columns AS c\n    ON c.object_id = t.object_id\nJOIN sys.types AS ty\n    ON ty.user_type_id = c.user_type_id\n\nWHERE t.is_ms_shipped = 0\n  AND s.name IN (\n      N'Application',\n      N'Purchasing',\n      N'Sales',\n      N'Warehouse'\n  )\n\nGROUP BY\n    s.name,\n    t.name,\n    t.temporal_type_desc\n\nORDER BY\n    s.name,\n    t.name;",
+            "partitionOption": "None",
+            "queryTimeout": "02:00:00"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "typeProperties": {
+              "database": "free-sql-db-7745991"
+            },
+            "schema": [],
+            "externalReferences": {
+              "connection": "ba29182e-5d32-4875-aa4d-20bf4d84aae4"
+            },
+            "annotations": []
+          },
+          "firstRowOnly": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Lookup_wwi_TableList",
+        "description": "it connects to a database or a configuration file to retrieve a list of tables",
+        "dependsOn": []
+      },
+      {
+        "type": "ForEach",
+        "typeProperties": {
+          "isSequential": true,
+          "items": {
+            "value": "@activity('Lookup_WWI_TableList').output.value",
+            "type": "Expression"
+          },
+          "activities": [
+            {
+              "type": "InvokePipeline",
+              "typeProperties": {
+                "parameters": {
+                  "p_source_schema": "@item().SourceSchema",
+                  "p_source_table": "@item().SourceTable",
+                  "p_attempt_id": "01",
+                  "p_source_query": "@item().SourceQuery",
+                  "p_batch_id": "@pipeline().RunId"
+                },
+                "waitOnCompletion": true,
+                "workspaceId": "00000000-0000-0000-0000-000000000000",
+                "pipelineId": "529e9613-8554-87ed-42a8-6905eb02b703",
+                "operationType": "InvokeFabricPipeline"
+              },
+              "externalReferences": {
+                "connection": "3b3d699c-b3d7-4466-882e-d4f4cb2454a6"
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "Invoke_WWI_Ingest_Table",
+              "dependsOn": []
+            }
+          ]
+        },
+        "name": "ForEach_WWI_Table",
+        "dependsOn": [
+          {
+            "activity": "Lookup_wwi_TableList",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
