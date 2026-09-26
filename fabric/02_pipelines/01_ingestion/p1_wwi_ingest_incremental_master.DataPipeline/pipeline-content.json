@@ -6,7 +6,7 @@
         "typeProperties": {
           "variableName": "BatchID",
           "value": {
-            "value": "@pipeline().RunId",
+            "value": "@pipeline().parameters.BatchID",
             "type": "Expression"
           }
         },

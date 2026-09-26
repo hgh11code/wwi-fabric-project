@@ -1,5 +1,5 @@
 {
-  "config": "{\"version\":\"5.77\",\"themeCollection\":{\"baseTheme\":{\"name\":\"Fluent2-CY26SU09\",\"version\":{\"visual\":\"2.13.0\",\"report\":\"3.4.0\",\"page\":\"2.3.1\"},\"type\":2}},\"activeSectionIndex\":0,\"defaultDrillFilterOtherVisuals\":true,\"settings\":{\"useNewFilterPaneExperience\":true,\"allowChangeFilterTypes\":true,\"useStylableVisualContainerHeader\":true,\"queryLimitOption\":6,\"useEnhancedTooltips\":true,\"exportDataMode\":1,\"useDefaultAggregateDisplayName\":true},\"objects\":{\"section\":[{\"properties\":{\"verticalAlignment\":{\"expr\":{\"Literal\":{\"Value\":\"'Top'\"}}}}}]}}",
+  "config": "{\"version\":\"5.77\",\"themeCollection\":{\"baseTheme\":{\"name\":\"Fluent2-CY26SU09\",\"type\":2,\"version\":{\"visual\":\"2.13.0\",\"report\":\"3.4.0\",\"page\":\"2.3.1\"}}},\"activeSectionIndex\":0,\"defaultDrillFilterOtherVisuals\":true,\"linguisticSchemaSyncVersion\":0,\"settings\":{\"useNewFilterPaneExperience\":true,\"allowChangeFilterTypes\":true,\"useStylableVisualContainerHeader\":true,\"queryLimitOption\":6,\"useEnhancedTooltips\":true,\"exportDataMode\":1,\"useDefaultAggregateDisplayName\":true},\"objects\":{\"section\":[{\"properties\":{\"verticalAlignment\":{\"expr\":{\"Literal\":{\"Value\":\"'Top'\"}}}}}],\"outspacePane\":[{\"properties\":{\"expanded\":{\"expr\":{\"Literal\":{\"Value\":\"false\"}}}}}]}}",
   "layoutOptimization": 0,
   "resourcePackages": [
     {
@@ -27,44 +27,104 @@
       "name": "006f09133adc819b0320",
       "visualContainers": [
         {
-          "config": "{\"name\":\"26a4a109030006b815bd\",\"layouts\":[{\"id\":0,\"position\":{\"x\":0,\"y\":290,\"width\":679,\"height\":280,\"z\":1,\"tabOrder\":1}}],\"singleVisual\":{\"visualType\":\"cardVisual\",\"projections\":{\"Data\":[{\"queryRef\":\"fact_invoice_line.Total Profit\"}]},\"prototypeQuery\":{\"Version\":2,\"From\":[{\"Name\":\"f\",\"Entity\":\"fact_invoice_line\",\"Type\":0}],\"Select\":[{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"Total Profit\"},\"Name\":\"fact_invoice_line.Total Profit\",\"NativeReferenceName\":\"Total Profit\"}],\"OrderBy\":[{\"Direction\":2,\"Expression\":{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"Total Profit\"}}}]},\"drillFilterOtherVisuals\":true,\"hasDefaultSort\":true}}",
+          "config": "{\"name\":\"0c22ecf8ad0719b278d0\",\"layouts\":[{\"id\":0,\"position\":{\"x\":0,\"y\":812.9863496573926,\"z\":7001,\"width\":457.4602089815298,\"height\":267.2661547038829,\"tabOrder\":7001}}],\"singleVisual\":{\"visualType\":\"waterfallChart\",\"projections\":{\"Y\":[{\"queryRef\":\"fact_invoice_line.Quantity Sold\"}],\"Category\":[{\"queryRef\":\"dim_date.calendar_year\",\"active\":true}]},\"prototypeQuery\":{\"Version\":2,\"From\":[{\"Name\":\"f\",\"Entity\":\"fact_invoice_line\",\"Type\":0},{\"Name\":\"d\",\"Entity\":\"dim_date\",\"Type\":0}],\"Select\":[{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"Quantity Sold\"},\"Name\":\"fact_invoice_line.Quantity Sold\",\"NativeReferenceName\":\"Quantity Sold\"},{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"d\"}},\"Property\":\"calendar_year\"},\"Name\":\"dim_date.calendar_year\",\"NativeReferenceName\":\"calendar_year\"}],\"OrderBy\":[{\"Direction\":2,\"Expression\":{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"Quantity Sold\"}}}]},\"autoSelectVisualType\":false,\"drillFilterOtherVisuals\":true,\"hasDefaultSort\":true}}",
           "filters": "[]",
-          "height": 280.00,
-          "queryBinary": "H4sIAAAAAAAEAF1QS0/DMAz+K8jnCm0cexwUDmhoYxMXVE1R5oJR85CTTKuq/necdIDGzV/8veIR7p0xyh4D1O8j7FDmSHqbkIcHFdXuU3m8UKAeoSzy8IYcyFmo7yp4ZGeK/EUZhBo6qKARmzhkoHQ8kD050njoyaIs94MX3mJqK0nsUceiXqMKiTG7N2fPGOYAaeUSa3zF7g+UlGmqYMPOI5ekvYuqv5GHjiLI6qfN/wK3V8TMi3TK9shoNV5k126t+K3IHsl+5BIbJqPmQzyxS16e5wMK/0v+I8UzXrRF+HurpYDmjDplwhojkw7PlC+7nIT5DUjanVeNAQAA",
-          "width": 679.00,
+          "height": 267.27,
+          "queryBinary": "H4sIAAAAAAAEAK2TTWvzMAzHv8rwZZdsJB3skONenufw7LUt22GUYmx11UNiB8UeCyXffZLTbm1gsMNCIHakv/SzZG3Upa9r7WyrypeNmgGvA5rHCNRd6aBna93A1kWVG5UMsngCatE7VU4y9Yd8neR3ugZVqpXK1DWHCZ1stAlLdG8eDSwrdMDGedewX95nnxK7L7FYL60O+56LjNkqMCHluQXdRgLhuH5vCNoBhfl9JANTWH1tEk/fZ+qBfAOUEjxGnXIdzXxlFdt24GPW00NPcQz4JgmAwBnY6sbxNlzVKtbup4B2DGh0Bc5qWnagaQ9wV5nTQ4fvuEZhuIjPa5C6vQihsxi2WNzhRhO2490/lLafZeoGVmEw/c65UnvFOMXXdYp8gwFIV+lu6SomOTsFrOF4khfnJ0VxMjmb53mZ3mNW88NHuicLdNGlQ10h8R3Z3ctDxF++NJyb7RdcIHSvonwgrPUwHH/Jx4Z/D0PFMf4PVLLPs2KRpDJeU7DR7JogP56kvpBKvhdv7hv+9AL0OXdFLwcEE0V+C4HQtEO7CkH7AGIZPDPZAwAA",
+          "width": 457.46,
           "x": 0.00,
-          "y": 290.00,
-          "z": 1.00
+          "y": 812.99,
+          "z": 7001.00
         },
         {
-          "config": "{\"name\":\"4589de3e780ab91b8396\",\"layouts\":[{\"id\":0,\"position\":{\"x\":0,\"y\":870,\"width\":679,\"height\":210,\"z\":3,\"tabOrder\":3}}],\"singleVisual\":{\"visualType\":\"cardVisual\",\"projections\":{\"Data\":[{\"queryRef\":\"fact_invoice_line.Sales Excluding Tax\"}]},\"prototypeQuery\":{\"Version\":2,\"From\":[{\"Name\":\"f\",\"Entity\":\"fact_invoice_line\",\"Type\":0}],\"Select\":[{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"Sales Excluding Tax\"},\"Name\":\"fact_invoice_line.Sales Excluding Tax\",\"NativeReferenceName\":\"Sales Excluding Tax\"}],\"OrderBy\":[{\"Direction\":2,\"Expression\":{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"Sales Excluding Tax\"}}}]},\"drillFilterOtherVisuals\":true,\"hasDefaultSort\":true}}",
+          "config": "{\"name\":\"1106aff36ac556eb7998\",\"layouts\":[{\"id\":0,\"position\":{\"x\":0,\"y\":226.2439077028218,\"z\":6000,\"width\":457.4602089815298,\"height\":123,\"tabOrder\":6000}}],\"singleVisual\":{\"visualType\":\"slicer\",\"projections\":{\"Values\":[{\"queryRef\":\"dim_date.calendar_date\",\"active\":true}]},\"prototypeQuery\":{\"Version\":2,\"From\":[{\"Name\":\"d\",\"Entity\":\"dim_date\",\"Type\":0}],\"Select\":[{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"d\"}},\"Property\":\"calendar_date\"},\"Name\":\"dim_date.calendar_date\",\"NativeReferenceName\":\"calendar_date\"}],\"OrderBy\":[{\"Direction\":1,\"Expression\":{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"d\"}},\"Property\":\"calendar_date\"}}}]},\"drillFilterOtherVisuals\":true,\"hasDefaultSort\":true,\"objects\":{\"data\":[{\"properties\":{\"endDate\":{\"expr\":{\"Literal\":{\"Value\":\"datetime'2016-11-22T00:00:00'\"}}},\"mode\":{\"expr\":{\"Literal\":{\"Value\":\"'Between'\"}}}}}],\"general\":[{\"properties\":{\"filter\":{\"filter\":{\"Version\":2,\"From\":[{\"Name\":\"d\",\"Entity\":\"dim_date\",\"Type\":0}],\"Where\":[{\"Condition\":{\"Comparison\":{\"ComparisonKind\":3,\"Left\":{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"d\"}},\"Property\":\"calendar_date\"}},\"Right\":{\"Literal\":{\"Value\":\"datetime'2016-11-23T00:00:00'\"}}}}}]}}}}],\"date\":[{\"properties\":{\"textSize\":{\"expr\":{\"Literal\":{\"Value\":\"10D\"}}}}}],\"header\":[{\"properties\":{\"textSize\":{\"expr\":{\"Literal\":{\"Value\":\"29D\"}}},\"fontFamily\":{\"expr\":{\"Literal\":{\"Value\":\"'Constantia'\"}}},\"fontColor\":{\"solid\":{\"color\":{\"expr\":{\"ThemeDataColor\":{\"ColorId\":3,\"Percent\":-0.5}}}}},\"text\":{\"expr\":{\"Literal\":{\"Value\":\"'Calendar Date'\"}}}}}]}}}",
           "filters": "[]",
-          "height": 210.00,
-          "queryBinary": "H4sIAAAAAAAEAG1Qy2rDMBD8lbBnE5IefUzr9lBS0jr0UkwQyibdYklmJQUb43/vSk5bKLntY3Zmdka4d8Yoe/RQfoxQo9SB9GtEHh5UUPWn6vAKgXKEvEjFO7InZ6G8K+CRncnnL8oglHCCAiqhCUNqlA4HshdHGg8tWZTlfugEt5qaQhRb1CFfb1H5yJjYq75j9LOAuHKRNb7h6a/JKtNUwI5dh5yVatWiX1S9buOR7HmxVz0I4sfUfx/LW/gED3RJYshoNV6vb3I3wr4hmwbJ2Y7JqDmdJ3axk/Gcqnj8kiflm9Svmnz4G+BamqpHHRNgi4FJ+2dKca8nQX4Dst9OoqIBAAA=",
-          "width": 679.00,
+          "height": 123.00,
+          "queryBinary": "H4sIAAAAAAAEAMVSzUrEMBB+lzkpFHFXT73p2hWRldUVL1IkpGONNEmZJtJS+u5O0kp1WW+Ct0y+34HpYWW1FqZoIH3uYYf8dkree6TuSjixexM1ThRIe4hAeDwhNcoaSJcJrMnqKL8TGiGFAhLI2MZ1YVD6pRAO+e+xqxk+HfKEgyqULopWtvLaBM+srQmb0Za7WE8SH/B1HqL3MCSwJVsjRX8pKjSFoDGEsa8SU+7JT0LAnfoIvkhoJE70fZseLsqSsGSyPVDub0szuPZGjlFn8w4bZY4O73H8rxXPv1UU7e8Vc+ZdKlMoU4awLSktxvO5Jutr/h7PjmPfMXqHeZEs8yi9MbLyBWa6dl0UMOrIYzJf34JpWYvSB/EGHSnZ3Kpwq4uBPT4B+MhMrt8CAAA=",
+          "width": 457.46,
           "x": 0.00,
-          "y": 870.00,
-          "z": 3.00
+          "y": 226.24,
+          "z": 6000.00
         },
         {
-          "config": "{\"name\":\"bcc71407043c070e8d76\",\"layouts\":[{\"id\":0,\"position\":{\"x\":0,\"y\":0,\"z\":0,\"width\":679.2178306092125,\"height\":279.964338781575,\"tabOrder\":0}}],\"singleVisual\":{\"visualType\":\"cardVisual\",\"projections\":{\"Data\":[{\"queryRef\":\"fact_invoice_line.Total Sales\"}]},\"prototypeQuery\":{\"Version\":2,\"From\":[{\"Name\":\"f\",\"Entity\":\"fact_invoice_line\",\"Type\":0}],\"Select\":[{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"Total Sales\"},\"Name\":\"fact_invoice_line.Total Sales\",\"NativeReferenceName\":\"Total Sales\"}],\"OrderBy\":[{\"Direction\":2,\"Expression\":{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"Total Sales\"}}}]},\"drillFilterOtherVisuals\":true,\"hasDefaultSort\":true}}",
+          "config": "{\"name\":\"22321267561ea72361e9\",\"layouts\":[{\"id\":0,\"position\":{\"x\":457.4602089815298,\"y\":436.32753628401343,\"z\":5000,\"width\":1463.1268097045122,\"height\":376.65881337337913,\"tabOrder\":5000}}],\"singleVisual\":{\"visualType\":\"clusteredBarChart\",\"projections\":{\"Category\":[{\"queryRef\":\"dim_customer.sales_territory\",\"active\":true}],\"Y\":[{\"queryRef\":\"fact_invoice_line.Total Sales\"}]},\"prototypeQuery\":{\"Version\":2,\"From\":[{\"Name\":\"d\",\"Entity\":\"dim_customer\",\"Type\":0},{\"Name\":\"f\",\"Entity\":\"fact_invoice_line\",\"Type\":0}],\"Select\":[{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"d\"}},\"Property\":\"sales_territory\"},\"Name\":\"dim_customer.sales_territory\",\"NativeReferenceName\":\"sales_territory\"},{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"Total Sales\"},\"Name\":\"fact_invoice_line.Total Sales\",\"NativeReferenceName\":\"Total Sales\"}],\"OrderBy\":[{\"Direction\":2,\"Expression\":{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"Total Sales\"}}}]},\"drillFilterOtherVisuals\":true,\"hasDefaultSort\":true}}",
           "filters": "[]",
-          "height": 279.96,
-          "queryBinary": "H4sIAAAAAAAEAF1Qy07DMBD8FbTnCLUccywEDqioJRUXFFWWu4VF8UNru2oU5d9ZO+V52/HOzoxnhFtnjLKHAPXrCC3KHElvE/Jwp6Jq35XHCwXqEcoiDy/IgZyF+qaCe3amnD8pg1DDESpoRCYOGSgd92RPjjTue7Ioy93ghbeYukoce9SxXK9RhcSY1ZuzZwyzgaRyiTU+4/EHFJdpqmDDziMXp52Lqr9qVY8BZPMV5r//9W9epkU6ZXFktBovV3+0OlFbkT2QfcsJNkxGzS08sEtenuf2JMuHfEZSZ7zoyuF3UUsBzRl1yoQ1RiYdHinXupyE+QkxGX6FigEAAA==",
-          "width": 679.22,
+          "height": 376.66,
+          "queryBinary": "H4sIAAAAAAAEAK1TTU/cMBD9K5UvXAKKF8QhRz7aQ6HQ3RUcKrSynAnrKrajsU27WuW/d8bZpSGAVKRGOdieN89vnme24txbq1wdRPVjKxZA62j09wS4uVBRLdaqgx1EVFuRA7y4AwzGO1HNCvEZvc3p35QFUYlaFOKSaOKGN8audArRW0A6X246gpR98YxuxuhG6bgy7skbDavWOHgzpZbTG2oVx9CHgkppQccs69y3yTpWffm7QwiDcKrWJ9Qwh+bvJqvv+0Lcou8AM39QLYRVBEQTPVVP0b2OUW1HUxijonlifkBwGnZJr+m24hpUSAj/KrGZSlz6qNpPC2YeyXtl5tEY956+F1xk5P0aWFn20dUm7pRRU3QKTZjuvhrulONCXEETh9CH3JfT2jQpcbXC4Y05ODeP60x9ZchG1eZ+VG3K+QSKxsLBrJSnh1Iezo6XZVnl/4Cy6aOabrAGPNvkqi4MUqPse/mlxv/6LnQzRc/IH+MeOe8WjVXDOH1Bnzo6HsaQGH4OmnhfFvIhp/JAzqFOev8GfHDH9tLlJ8WY755u8b8G+5Mjs2RZlj2rex5c2XO1oBOzXUNEo8PweJKV/gFEmO3EGgQAAA==",
+          "width": 1463.13,
+          "x": 457.46,
+          "y": 436.33,
+          "z": 5000.00
+        },
+        {
+          "config": "{\"name\":\"26a4a109030006b815bd\",\"layouts\":[{\"id\":0,\"position\":{\"x\":226.18609880298922,\"y\":0,\"z\":1000,\"width\":231.60372991204287,\"height\":109.7070299583361,\"tabOrder\":1000}}],\"singleVisual\":{\"visualType\":\"cardVisual\",\"projections\":{\"Data\":[{\"queryRef\":\"fact_invoice_line.Total Profit\"}]},\"prototypeQuery\":{\"Version\":2,\"From\":[{\"Name\":\"f\",\"Entity\":\"fact_invoice_line\",\"Type\":0}],\"Select\":[{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"Total Profit\"},\"Name\":\"fact_invoice_line.Total Profit\",\"NativeReferenceName\":\"Total Profit\"}],\"OrderBy\":[{\"Direction\":2,\"Expression\":{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"Total Profit\"}}}]},\"drillFilterOtherVisuals\":true,\"hasDefaultSort\":true}}",
+          "filters": "[]",
+          "height": 109.71,
+          "queryBinary": "H4sIAAAAAAAEAI2SwW7CMAyGX2XKhUuZWpB26HGM7TCYGKDtMCFkpQY8NUnlpgiEePc5KWPAaVUPcfz/9pfEBzVwxoAtapV/HdQMZe1JvzfI+yfwMNtAhSeJyg8qJsLiA7kmZ1XeS9QzOxPtb2BQ5WqlEjWUMn4fAtB+SXbrSOOyJIuSnO8r0aXH5GwpLi0FmWUB/lK5SIStRO1jnzFC3TAGjuGuYqxbFOF3DWuc4uoviDzHY6Im7Crk2GDuPJR3srEiryT1y32Len8lDDpP21AeGa3Gk+26mpB+bjDACejA2YL8CU6usQKm+jZ6pXC3/USNcOXbVNkY+9/TFben01CiLYDbOwzJKa03sfKIPDKU8QGhbKJdRJ4Mdnpp9tDNsm6vP0/TPP4dccu3kBKPAkl2HZwTJgPtFLywayrZbqdHGL7liYQ2xOkiGs+Dkkkw3KFugmCMnknX7dGz0OIHbS9eOIoCAAA=",
+          "width": 231.60,
+          "x": 226.19,
+          "y": 0.00,
+          "z": 1000.00
+        },
+        {
+          "config": "{\"name\":\"4589de3e780ab91b8396\",\"layouts\":[{\"id\":0,\"position\":{\"x\":226.18609880298922,\"y\":109.7070299583361,\"z\":3000,\"width\":231.60372991204287,\"height\":116.47906884465314,\"tabOrder\":3000}}],\"singleVisual\":{\"visualType\":\"cardVisual\",\"projections\":{\"Data\":[{\"queryRef\":\"fact_invoice_line.Sales Excluding Tax\"}]},\"prototypeQuery\":{\"Version\":2,\"From\":[{\"Name\":\"f\",\"Entity\":\"fact_invoice_line\",\"Type\":0}],\"Select\":[{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"Sales Excluding Tax\"},\"Name\":\"fact_invoice_line.Sales Excluding Tax\",\"NativeReferenceName\":\"Sales Excluding Tax\"}],\"OrderBy\":[{\"Direction\":2,\"Expression\":{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"Sales Excluding Tax\"}}}]},\"drillFilterOtherVisuals\":true,\"hasDefaultSort\":true}}",
+          "filters": "[]",
+          "height": 116.48,
+          "queryBinary": "H4sIAAAAAAAEAI2STW/CMAyG/8qUC5cytSDt0ONYt8NgYoC2w4RQlBjwlI8qTVAR4r/PSRlDiMOqHuL4fe3HSQ5sZLXmRjas/DqwOdDao3gP4PZP3PP5ltdwkrDywFIiLj7ANWgNKwcZe3ZWJ/sb18BKtmYZq6iM38eAC79Cs7MoYKXQACUX+5p0+TE7W+SlRaJeSe4vlcuM2BQIn/pMgDfBQeSo2tpB06EQvw1OwAzWf0HiOR4zNnW2BpcazLmC5q5qhQoSzeZuwVtGil/8a+L7W/oo97iLzcCBEXBy36xN+J9biMREP7JGoj8R09nW3GFzHb1iPPBhxsaw9l1KBW3+O7K8HlkQlpHcdQcbkzPcbFPlMXpwXKVb5SokO4k8augN8uKhXxT9wXCR52X6e+Smb0klHgmSZozOqUPNu6fx4myoabt7UsTwTfdGtDHOl8l4fj0FBVULIkTBBLxD0XSjF7HFDysQl5mfAgAA",
+          "width": 231.60,
+          "x": 226.19,
+          "y": 109.71,
+          "z": 3000.00
+        },
+        {
+          "config": "{\"name\":\"7efc1b8b80e7b7ea416c\",\"layouts\":[{\"id\":0,\"position\":{\"x\":0,\"y\":349.31064870600505,\"z\":7000,\"width\":457.4602089815298,\"height\":463.6757009513875,\"tabOrder\":7000}}],\"singleVisual\":{\"visualType\":\"tableEx\",\"projections\":{\"Values\":[{\"queryRef\":\"dim_customer.state_province_name\"},{\"queryRef\":\"fact_invoice_line.Sales Excluding Tax\"}]},\"prototypeQuery\":{\"Version\":2,\"From\":[{\"Name\":\"d\",\"Entity\":\"dim_customer\",\"Type\":0},{\"Name\":\"f\",\"Entity\":\"fact_invoice_line\",\"Type\":0}],\"Select\":[{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"d\"}},\"Property\":\"state_province_name\"},\"Name\":\"dim_customer.state_province_name\",\"NativeReferenceName\":\"state_province_name\"},{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"Sales Excluding Tax\"},\"Name\":\"fact_invoice_line.Sales Excluding Tax\",\"NativeReferenceName\":\"Sales Excluding Tax\"}],\"OrderBy\":[{\"Direction\":2,\"Expression\":{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"d\"}},\"Property\":\"state_province_name\"}}}]},\"drillFilterOtherVisuals\":true}}",
+          "filters": "[]",
+          "height": 463.68,
+          "queryBinary": "H4sIAAAAAAAEALWTTW/bMAyG/0qhSy9uYafoDj62zXZYu3ZJ0B6KIdAkutFgSQYtZQkC//eRctJ5mQeshxo+6OPlq4cUtRPX3lrpdCvK552YA42DUV8j4PZGBjlfyQb2ElHuRNrgwSNga7wT5SQTH9HbFP5FWhCl0CITU7IJW54Yu1SxDd4C0vpi25Ak77JXdTVUV1KFpXFrbxQsa+NgNEQXxydoGYbSbxmlUoMKCeva19E6pp5uGoS2B6dsfUQFM6h+TxJ912XiAX0DmPzbQObLBv3aOKJyzECKA8sgv/MxKSuDWfM5gEDL+8Bx2524A9lGhP/FrY5x57KG9mS6UXXUxr2cLORmgPtXgc/H9P9iHvWmYj+tgIlTrZ02YU9MjdNINO3x7LPhbrrIxC1Uod960w0Vxzkr4nJaYt8HvDkzL6tkfWsCoKxTz8o6pngSBWPhdJIXH86K4mxyscjzMv2nFE0f5XSPGvBqm7K6MUjNdOj3Pxnfo7sIgFRXVCaqMsc/oLGyf3mf0MeGlvsXS04/ejSe51nBrR+/Bx845yL58EOegY7qcC+88MjYkG5hYP5ER/qffVrRUQEv87xj4tf3XnRcAFCRze4goFFtf58FU/8Cn8rI51EEAAA=",
+          "width": 457.46,
+          "x": 0.00,
+          "y": 349.31,
+          "z": 7000.00
+        },
+        {
+          "config": "{\"name\":\"b229cce43d16b47e0d80\",\"layouts\":[{\"id\":0,\"position\":{\"x\":457,\"y\":813,\"width\":1463,\"height\":267,\"z\":7002,\"tabOrder\":7002}}],\"singleVisual\":{\"visualType\":\"ribbonChart\",\"projections\":{\"Y\":[{\"queryRef\":\"fact_invoice_line.Total Profit\"}],\"Category\":[{\"queryRef\":\"dim_date.calendar_year\",\"active\":true}],\"Series\":[{\"queryRef\":\"dim_date.calendar_quarter\"}]},\"prototypeQuery\":{\"Version\":2,\"From\":[{\"Name\":\"f\",\"Entity\":\"fact_invoice_line\",\"Type\":0},{\"Name\":\"d\",\"Entity\":\"dim_date\",\"Type\":0}],\"Select\":[{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"Total Profit\"},\"Name\":\"fact_invoice_line.Total Profit\",\"NativeReferenceName\":\"Total Profit\"},{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"d\"}},\"Property\":\"calendar_year\"},\"Name\":\"dim_date.calendar_year\",\"NativeReferenceName\":\"calendar_year\"},{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"d\"}},\"Property\":\"calendar_quarter\"},\"Name\":\"dim_date.calendar_quarter\",\"NativeReferenceName\":\"calendar_quarter\"}],\"OrderBy\":[{\"Direction\":2,\"Expression\":{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"Total Profit\"}}}]},\"autoSelectVisualType\":false,\"drillFilterOtherVisuals\":true,\"hasDefaultSort\":true}}",
+          "filters": "[]",
+          "height": 267.00,
+          "queryBinary": "H4sIAAAAAAAEAK2Ty07rMBCGX+XIGzYBJQWdRZYcCgsugraCBaqqkTOlg2I7ODaiqvruZ8ZpS4nEZUGURebyjz9PZlbqnzMGbNWq8nGlxsjfgfRdRL88gwDjBTS4SVHlSqWAfNyjb8lZVQ4yde6dSfIbMKhKNVeZGnKZsBQDdJiRfXWkcVaTRQ5Olg3n5etsJ6n2JRWZWQVhP3OaMVuNOqRzrhHa6FE4hm+Nx7ZDYX4XvcYRzt+NxLNeZ+rWuwZ9OmDiAtR/2DGnoDi05e6jHn1IlLxAr1IePVqNG1mv2opbWkdjf0pX9ek01Ggr8LMlgt/D27bl6GPCZ1j9Mr/H9RLBB/wabZvzLd2uGP/ihwXKX30UVFtR2PDx/DXgqe1blyRDeZypK5yHLvQ7F0zDJ8ERPS1S5StiRqjT5EMdk5yTAhk8GOTF38OiOBwcT/K8TO8Bq/mZcolThiT7JMpbTwa69bnwLjbs7taOGZ55tplW7Dwrpkk6Ru2E51vFoMuXhR1hFfW2ceK4l54w70m2f/4YTFPLAq3750xck9zs3+14wcbwDXWUwtcYPOm2a34hl/wP+/E9LkUEAAA=",
+          "width": 1463.00,
+          "x": 457.00,
+          "y": 813.00,
+          "z": 7002.00
+        },
+        {
+          "config": "{\"name\":\"bcc71407043c070e8d76\",\"layouts\":[{\"id\":0,\"position\":{\"x\":0,\"y\":0,\"z\":0,\"width\":226.18609880298922,\"height\":109.7070299583361,\"tabOrder\":0}}],\"singleVisual\":{\"visualType\":\"cardVisual\",\"projections\":{\"Data\":[{\"queryRef\":\"fact_invoice_line.Total Sales\"}]},\"prototypeQuery\":{\"Version\":2,\"From\":[{\"Name\":\"f\",\"Entity\":\"fact_invoice_line\",\"Type\":0}],\"Select\":[{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"Total Sales\"},\"Name\":\"fact_invoice_line.Total Sales\",\"NativeReferenceName\":\"Total Sales\"}],\"OrderBy\":[{\"Direction\":2,\"Expression\":{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"Total Sales\"}}}]},\"drillFilterOtherVisuals\":true,\"hasDefaultSort\":true}}",
+          "filters": "[]",
+          "height": 109.71,
+          "queryBinary": "H4sIAAAAAAAEAI2SwW7CMAyGX2XKhUuZWpB26HGM7TCYGKDtMCFkpQY8NUnlpgiEePc5KQPGaVUPcfz/zmcnBzVwxoAtapV/HdQMZe1JvzfI+yfwMNtAhSeJyg8qJsLiA7kmZ1XeS9QzOxPtb2BQ5WqlEjWUMn4fAtB+SXbrSOOyJIuSnO8r0aXH5Gwpri0FmWUB/lq5SIStRO3jOWOEumEMHMNdxVi3KMLvGtY4xdUliDzHY6Im7CrkeMDceSjvZlBirSTzi31Len+tCzJP21AcGa3Gk+tPLcH83GAgE8qBswX5E5nMsAKm+jZ6pTDYfqJGuPJtqmyM/W9rxW1rWkBsAdwOMCSntN7EyiPyyFDG24OyiXYReTLY6aXZQzfLur3+PE3z+HfELd9CSjwKJNl1cE6YDLRP4IVdU8l2+3SE4VvuR2hDnC6i8fxKMgmGO9RNEIzRM+m6bT0LR/wA5pMow4cCAAA=",
+          "width": 226.19,
           "x": 0.00,
           "y": 0.00,
           "z": 0.00
         },
         {
-          "config": "{\"name\":\"fa244c541c4669d01734\",\"layouts\":[{\"id\":0,\"position\":{\"x\":0,\"y\":580,\"width\":679,\"height\":280,\"z\":2,\"tabOrder\":2}}],\"singleVisual\":{\"visualType\":\"cardVisual\",\"projections\":{\"Data\":[{\"queryRef\":\"fact_invoice_line.Profit Margin %\"}]},\"prototypeQuery\":{\"Version\":2,\"From\":[{\"Name\":\"f\",\"Entity\":\"fact_invoice_line\",\"Type\":0}],\"Select\":[{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"Profit Margin %\"},\"Name\":\"fact_invoice_line.Profit Margin %\",\"NativeReferenceName\":\"Profit Margin %\"}],\"OrderBy\":[{\"Direction\":2,\"Expression\":{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"Profit Margin %\"}}}]},\"drillFilterOtherVisuals\":true,\"hasDefaultSort\":true}}",
+          "config": "{\"name\":\"c232a31cc82b5c4adc70\",\"layouts\":[{\"id\":0,\"position\":{\"x\":457.4602089815298,\"y\":0,\"z\":4000,\"width\":1463.1268097045122,\"height\":436.32753628401343,\"tabOrder\":4000}}],\"singleVisual\":{\"visualType\":\"lineChart\",\"projections\":{\"Category\":[{\"queryRef\":\"dim_date.calendar_date\",\"active\":true}],\"Y\":[{\"queryRef\":\"fact_invoice_line.Total Sales\"}],\"Series\":[{\"queryRef\":\"dim_date.calendar_year\"}]},\"prototypeQuery\":{\"Version\":2,\"From\":[{\"Name\":\"f\",\"Entity\":\"fact_invoice_line\",\"Type\":0},{\"Name\":\"d\",\"Entity\":\"dim_date\",\"Type\":0}],\"Select\":[{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"Total Sales\"},\"Name\":\"fact_invoice_line.Total Sales\",\"NativeReferenceName\":\"Total Sales\"},{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"d\"}},\"Property\":\"calendar_date\"},\"Name\":\"dim_date.calendar_date\",\"NativeReferenceName\":\"calendar_date\"},{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"d\"}},\"Property\":\"calendar_year\"},\"Name\":\"dim_date.calendar_year\",\"NativeReferenceName\":\"calendar_year\"}],\"OrderBy\":[{\"Direction\":1,\"Expression\":{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"d\"}},\"Property\":\"calendar_date\"}}}]},\"queryOptions\":{\"keepProjectionOrder\":true},\"drillFilterOtherVisuals\":true,\"hasDefaultSort\":true}}",
           "filters": "[]",
-          "height": 280.00,
-          "queryBinary": "H4sIAAAAAAAEAGVQTUsDMRD9K2XA2yKtxz2qqwdZqVa8yFJCOltHmg8mSemy7H93kq0K9TYv8z4mb4Q7Z4yyuwD1xwgblDmSfknIw72KavOpPJ4pUI9QFnl4Rw7kLNQ3FTywM0X+rAxCDT1U0IhNHDJQOm7JHh1p3B7IoizfBi+85dRVknhAHYu6RRUSY3ZvTp4xzAFylUus8RX7P1BSpqmCNTuPXJJk7CkuWsV7sosrkO3PQZc3XF9yMzXSMYcgo9V4Vv7z7MT1luyO7D5fs2Yyam7kkV3y8jw3KcIv+Zj8IONlV4S/pa0ENCfUKRNajEw6PFGueDUJ8xuXGjNxlgEAAA==",
-          "width": 679.00,
+          "height": 436.33,
+          "queryBinary": "H4sIAAAAAAAEAK2TTU/DMAyG/wrKhUuH2oE49AgMhNgQrBMcpmmyEo8FNUmVpohp2n/HTvct8XGg6qGu39d94tpLce2MAatqkY+XokB6Dlo+N+gXNxCgmEOFa4nIlyIm+OEFfa2dFXk3EbfemWh/BIMiFzORiB6VCQsOQIapth9OS5yW2iIlR4uKdOkq2VrUvkVpM1UQ9pWThNhKlCF+Z4BQNx6Zo/dZeaxbFOJ3jZc4xNkuiDyrVSKevKvQxw+MXIDypIASa0GZDfYx6dm+jmVBf3Bx9Gglrl2HtZbUz7Ix9q9o6hhNUiGrwLcN2MFtenJ2KPiO6rjM/3EtEPyPXFHwK1dbhn7r6xz5T46Z0Cod1lg0cxV4XR9HD5oH8TwRfZyFNvWf/abkUL/NY+W+DuihjNMOZRPtJAra4Gk3zS47Wdbpno/SNI/3KbnpmlCJK4LU9o2dT14baFfmzrumotftqhHDO80z0XKcJekkWguUjnl+dXRbPS/pEFUjN43jFy/cE+K9SMS9pUPUuE0TmkXVp+kuwFQl79CKT73d54yC3ifKhh0DDF7Lum16xof7AtUWeg8xBAAA",
+          "width": 1463.13,
+          "x": 457.46,
+          "y": 0.00,
+          "z": 4000.00
+        },
+        {
+          "config": "{\"name\":\"fa244c541c4669d01734\",\"layouts\":[{\"id\":0,\"position\":{\"x\":0,\"y\":109.7070299583361,\"z\":2000,\"width\":226.18609880298922,\"height\":116.47906884465314,\"tabOrder\":2000}}],\"singleVisual\":{\"visualType\":\"cardVisual\",\"projections\":{\"Data\":[{\"queryRef\":\"fact_invoice_line.Profit Margin %\"}]},\"prototypeQuery\":{\"Version\":2,\"From\":[{\"Name\":\"f\",\"Entity\":\"fact_invoice_line\",\"Type\":0}],\"Select\":[{\"Arithmetic\":{\"Left\":{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"Profit Margin %\"}},\"Right\":{\"ScopedEval\":{\"Expression\":{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"Profit Margin %\"}},\"Scope\":[]}},\"Operator\":3},\"Name\":\"fact_invoice_line.Profit Margin %\",\"NativeReferenceName\":\"%GT Profit Margin %\"}],\"OrderBy\":[{\"Direction\":2,\"Expression\":{\"Arithmetic\":{\"Left\":{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"Profit Margin %\"}},\"Right\":{\"ScopedEval\":{\"Expression\":{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"Profit Margin %\"}},\"Scope\":[]}},\"Operator\":3}}}]},\"drillFilterOtherVisuals\":true,\"hasDefaultSort\":true}}",
+          "filters": "[{\"expression\":{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Entity\":\"fact_invoice_line\"}},\"Property\":\"Profit Margin %\"}},\"type\":\"Advanced\",\"howCreated\":1,\"isHiddenInViewMode\":false}]",
+          "height": 116.48,
+          "queryBinary": "H4sIAAAAAAAEALVSwW7CMAz9FRRp4lKmFqQdetsY4zDYGCB2mBCKUgOemqRyUwRC/PuclDEGl11WVardvGc/v3gvulZrabJSpB97MQGOHaq3Cmj3KJ2crGUBR4hI9yIc+GAGVKI1Im1H4omsDvQXqUGkYiki0eMybucTqdwCzcaigkWOBvhwuisYFx+iEyU7p2SoF5l058h5xNpyUC70uSd0aw0s1EsZwNL57xBkWRH4sLctCMpaIE9lK1IwhuVPElQeDpEYkS2AQlsOl+gaQ0krNI2bcDzG1ToUnyjGZb2NzK/r/0fj0I+HnfvklZHSWRJph7Nvly+Nvb2s46EON14AEBgFR+ZNf9q46skOv6/BT8EGd63J0B2n4OsvJGF5mT2j34lOdLqArs0rbf5qQ3Zpg5I5mExSffe/3B+gYweC9TOZV4HOIIcamu04uWslSavdmcZxGt4ms/mZc4kHFolm5ZkjQi3r7e2TrQr+XW89a/jk1WK1Po/ngXha8IST3hZU5QFDcISqrEdPfIsvvUn0J0IDAAA=",
+          "width": 226.19,
           "x": 0.00,
-          "y": 580.00,
-          "z": 2.00
+          "y": 109.71,
+          "z": 2000.00
         }
       ],
       "width": 1920.00
