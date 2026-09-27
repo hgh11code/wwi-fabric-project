@@ -107,6 +107,21 @@
               },
               "name": "Invoke_Incremental_Table",
               "dependsOn": []
+            },
+            {
+              "type": "Wait",
+              "typeProperties": {
+                "waitTimeInSeconds": 30
+              },
+              "name": "Wait1",
+              "dependsOn": [
+                {
+                  "activity": "Invoke_Incremental_Table",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
             }
           ]
         },
@@ -159,7 +174,7 @@
         "name": "Finalize_Bronze_Batch",
         "dependsOn": [
           {
-            "activity": "ForEach_Table",
+            "activity": "Wait2",
             "dependencyConditions": [
               "Succeeded"
             ]
@@ -192,6 +207,21 @@
         "dependsOn": [
           {
             "activity": "Set_IngestionDateUTC",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Wait",
+        "typeProperties": {
+          "waitTimeInSeconds": 60
+        },
+        "name": "Wait2",
+        "dependsOn": [
+          {
+            "activity": "ForEach_Table",
             "dependencyConditions": [
               "Succeeded"
             ]

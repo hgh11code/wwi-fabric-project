@@ -51,14 +51,14 @@ table fact_invoice_line
 			
 			DIVIDE(
 			    [Total Profit],
-			    [Sales Excluding Tax],
-			    0
+			    [Sales Excluding Tax]
 			)
+		formatString: 0.00%;-0.00%;0.00%
 		lineageTag: a195abbf-cc32-475f-a93a-d7ea1219f570
 
 		changedProperty = Name
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
+		changedProperty = FormatString
 
 	column invoice_line_id
 		dataType: int64
